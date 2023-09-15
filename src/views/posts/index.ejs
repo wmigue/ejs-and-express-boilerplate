@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../../utils/modal.class.js"></script>
+</head>
+
+
+<body class="">
+
+    <%- include('../base/estructura-head.ejs'); %>
+
+        <div class="container">
+
+      
+
+
+                <% posts.map((x)=> { %>
+                    <div class="card text-center mt-2 mb-5 col-12 col-md-5 mx-auto">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-6" style="text-align: left;">
+                                    <b>autor: </b>
+                                    <%= x.author.firstName + ' ' + x.author.lastName %>
+                                </div>
+                                <div class="col-6 " style="text-align: right;">
+                                    <a href="/post/eliminar/<%= x.id %>">
+                                        eliminar
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= x.title %>
+                            </h5>
+                            <p class="card-text">
+                                <%= x.body %>
+                                    <br><br>
+                                    <% if (x.imgURL) { %>
+                                        <img src="<%= x.imgURL %>" class="img-fluid" alt="Imagen aqui">
+                                        <% } %>
+                            </p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <%= x.createdAt %>
+                        </div>
+                    </div>
+
+
+
+            <% }) %>
+
+
+
+                <div class="row text-center mt-5 pt-5 mb-5" style="background-color: rgb(240, 240, 240);">
+                    <form action="/post" method="post" class="">
+                        <div class="mb-2 ">
+                            <input name="title" class="form-control" placeholder="titulo" type="text">
+                        </div>
+                        <div class="mb-2 ">
+                            <input name="imgURL" class="form-control" placeholder="url de la imagen" type="text">
+                        </div>
+                        <div class="mb-2 ">
+                            <textarea name="body" class="form-control" placeholder="escribe el cuerpo" id="body"
+                                cols="36" rows="2"></textarea>
+                        </div>
+                        <div class="mb-2 text-center">
+                            <button type="submit" class="btn btn-primary">insertar</button>
+                        </div>
+                    </form>
+                </div>
+
+
+
+        </div>
+
+
+        <%- include('../base/estructura-foot.ejs'); %>
+</body>
+
+
+
+
+
+<script >
+
+      
+    document.addEventListener("DOMContentLoaded", function () {
+        
+
+        //ejemplo ejs en script
+        let data = JSON.parse('<%- JSON.stringify(posts) %>')
+        console.log(data)
+
+        //scroll al final de todo
+        window.scroll({
+            top: document.body.scrollHeight,
+            left: 0,
+            behavior: "smooth",
+        })
+
+
+      
+        ModalMsg(0)
+
+    })
+</script>
+
+
+
+
+</html>

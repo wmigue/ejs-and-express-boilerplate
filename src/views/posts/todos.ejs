@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos los posts de todos los users</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+</head>
+
+<body class="">
+
+    <%- include('../base/estructura-head.ejs'); %>
+
+        <div class="container">
+
+            <% buscado.map((x)=> { %>
+                <div class="card text-center mt-2 mb-5 col-12 col-md-5 mx-auto">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-6" style="text-align: left;">
+                                <b>autor: </b>
+                                <%= x.author.firstName + ' ' + x.author.lastName %>
+                            </div>
+                            <div class="col-6 " style="text-align: right;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <%= x.title %>
+                        </h5>
+                        <p class="card-text">
+                            <%= x.body %>
+                                <br><br>
+                                <% if (x.imgURL) { %>
+                                    <img src="<%= x.imgURL %>" class="img-fluid" alt="Imagen aqui">
+                                    <% } %>
+                        </p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <%= x.createdAt %>
+                    </div>
+                </div>
+                <% }) %>
+
+        </div>
+
+
+        <%- include('../base/estructura-foot.ejs'); %>
+
+</body>
+
+</html>
