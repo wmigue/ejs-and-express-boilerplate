@@ -28,6 +28,31 @@ controller.getAllPosts = async (req, res) => {
 }
 
 
+controller.editarPost = async (req, res) => {
+  try {
+    const {
+      id,
+      body,
+      title,
+      imgURL,
+    } = req.body
+    await Post.update(
+      {
+        id,
+        body,
+        title,
+        imgURL
+      },
+      {
+        where: { id: id, idUser: req.session.isAuthenticated.usuario.id  } //debe coincidir el id del usuario logueado.
+      })
+    return res.status(204).json("actualizado.")
+  } catch (error) {
+    return res.status(500).json({ error: 'Error al editar Post' })
+  }
+}
+
+
 
 controller.createPost = async (req, res) => {
   console.log(req.session.isAuthenticated.usuario)
@@ -47,6 +72,9 @@ controller.createPost = async (req, res) => {
 }
 
 
+
+
+
 controller.deletePost = async (req, res) => {
   try {
     const { id } = req.params
@@ -57,6 +85,10 @@ controller.deletePost = async (req, res) => {
     return res.status(500).json({ error: 'Error al eliminar Post' })
   }
 }
+
+
+
+
 
 
 controller.getAllPostsFromAllUsers = async (req, res) => {

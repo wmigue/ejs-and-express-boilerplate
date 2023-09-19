@@ -4,7 +4,6 @@ const session = require('express-session');
 require('dotenv').config();
 const userRoutes = require('./src/routes/user.routes')
 const postRoutes = require('./src/routes/post.routes');
-const { loginUser } = require('./src/controllers/user.controllers');
 
 const server = express()
 const port = 3000
@@ -31,7 +30,8 @@ server.use(session({
 
 server.use(express.json())
 server.use(express.urlencoded({ extended: false }))
-server.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+server.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); //mis css
+server.use('/utils', express.static(__dirname + '/src/utils')); // mis scripts
 
 server.use('/', userRoutes)
 server.use('/user', userRoutes)

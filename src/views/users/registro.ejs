@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="text-center">Registro de Usuario</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="/user/registro" method="post">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" class="form-control" name="fn" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nombre">Apellido/s:</label>
+                                <input type="text" class="form-control" name="ln" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Tu Correo Electrónico:</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Tu Contraseña:</label>
+                                <input type="password" class="form-control" id="pass" name="pass" required>
+                            </div>
+                            <div class="mb-3 mt-5 text-center">
+                                <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+                            </div>
+       
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

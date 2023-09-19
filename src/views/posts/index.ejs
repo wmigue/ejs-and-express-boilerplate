@@ -17,66 +17,66 @@
 
         <div class="container">
 
-      
-
-
-                <% posts.map((x)=> { %>
-                    <div class="card text-center mt-2 mb-5 col-12 col-md-5 mx-auto">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-6" style="text-align: left;">
-                                    <b>autor: </b>
-                                    <%= x.author.firstName + ' ' + x.author.lastName %>
-                                </div>
-                                <div class="col-6 " style="text-align: right;">
-                                    <a href="/post/eliminar/<%= x.id %>">
-                                        eliminar
-                                    </a>
-                                </div>
+            <% posts.map((x)=> { %>
+                <div class="card text-center mt-2 mb-5 col-12 col-md-5 mx-auto">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-6" style="text-align: left;">
+                                <b>autor: </b>
+                                <%= x.author.firstName + ' ' + x.author.lastName %>
                             </div>
+                            <div class="col-6 " style="text-align: right;">
+                               
+                                <a class="editar" style="cursor: pointer; text-decoration: none; color: black" 
+                                    data-id="<%= x.id %>"
+                                    data-titulo="<%= x.title %>"
+                                    data-cuerpo="<%= x.body %>"
+                                    data-urlimagen="<%= x.imgURL %>"> editar✏</a>&nbsp;&nbsp;
+                                <a href="/post/eliminar/<%= x.id %>"
+                                    style=" text-decoration: none; color: black">eliminar❌</a>
+                            </div>
+                        </div>
 
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <%= x.title %>
-                            </h5>
-                            <p class="card-text">
-                                <%= x.body %>
-                                    <br><br>
-                                    <% if (x.imgURL) { %>
-                                        <img src="<%= x.imgURL %>" class="img-fluid" alt="Imagen aqui">
-                                        <% } %>
-                            </p>
-                        </div>
-                        <div class="card-footer text-muted">
-                            <%= x.createdAt %>
-                        </div>
                     </div>
-
-
-
-            <% }) %>
-
-
-
-                <div class="row text-center mt-5 pt-5 mb-5" style="background-color: rgb(240, 240, 240);">
-                    <form action="/post" method="post" class="">
-                        <div class="mb-2 ">
-                            <input name="title" class="form-control" placeholder="titulo" type="text">
-                        </div>
-                        <div class="mb-2 ">
-                            <input name="imgURL" class="form-control" placeholder="url de la imagen" type="text">
-                        </div>
-                        <div class="mb-2 ">
-                            <textarea name="body" class="form-control" placeholder="escribe el cuerpo" id="body"
-                                cols="36" rows="2"></textarea>
-                        </div>
-                        <div class="mb-2 text-center">
-                            <button type="submit" class="btn btn-primary">insertar</button>
-                        </div>
-                    </form>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <%= x.title %>
+                        </h5>
+                        <p class="card-text">
+                            <%= x.body %>
+                                <br><br>
+                                <% if (x.imgURL) { %>
+                                    <img src="<%= x.imgURL %>" class="img-fluid" alt="Imagen aqui">
+                                    <% } %>
+                        </p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <%= x.createdAt %>
+                    </div>
                 </div>
 
+
+
+                <% }) %>
+
+
+                    <div class="row text-center mt-5 pt-5 mb-5" style="background-color: rgb(240, 240, 240);">
+                        <form action="/post" method="post" class="">
+                            <div class="mb-2 ">
+                                <input name="title" class="form-control" placeholder="titulo" type="text">
+                            </div>
+                            <div class="mb-2 ">
+                                <input name="imgURL" class="form-control" placeholder="url de la imagen" type="text">
+                            </div>
+                            <div class="mb-2 ">
+                                <textarea name="body" class="form-control" placeholder="escribe el cuerpo" id="body"
+                                    cols="36" rows="2"></textarea>
+                            </div>
+                            <div class="mb-2 text-center">
+                                <button type="submit" class="btn btn-primary">insertar</button>
+                            </div>
+                        </form>
+                    </div>
 
 
         </div>
@@ -89,28 +89,92 @@
 
 
 
-<script >
+<script type="module">
 
-      
+    import { ModalMsg } from '../../utils/modal.class.js';
+
     document.addEventListener("DOMContentLoaded", function () {
-        
-
-        //ejemplo ejs en script
-        let data = JSON.parse('<%- JSON.stringify(posts) %>')
+        //ejemplo ejs en script (solo ejemplo como embeber ejs en js)
+        let data = <%- JSON.stringify(posts) %>
         console.log(data)
 
-        //scroll al final de todo
+        //scroll automatico al final de todo
         window.scroll({
             top: document.body.scrollHeight,
             left: 0,
             behavior: "smooth",
         })
+    })
 
 
-      
-        ModalMsg(0)
+    //click en editar
+    const btnEditar = document.querySelectorAll('.editar')
+
+    Array.from(btnEditar).map(x => {
+
+        x.addEventListener('click', (e) => {
+            console.log(e.target.dataset.cuerpo) //accedo al sub atributo data-id
+
+            const attrs = {
+                id: e.target.dataset.id,
+                body: e.target.dataset.cuerpo,
+                title: e.target.dataset.titulo,
+                imgURL: e.target.dataset.urlimagen
+            }
+
+
+            const html = `
+                    <div class="row text-center mt-5 pt-5 mb-5" style="background-color: rgb(240, 240, 240);">
+                        <form action="/editar" method="post">
+                            <input type="hidden" name="ide" value="${attrs.id}">
+                            <div class="m-3 ">
+                                <input name="titlee" class="form-control" placeholder="titulo" type="text" value="${attrs.title}">
+                            </div>
+                            <div class="m-3 ">
+                                <input name="imgURLe" class="form-control" placeholder="url de la imagen" type="text" value="${attrs.imgURL}">
+                            </div>
+                            <div class="m-3 ">
+                                <textarea name="bodye" class="form-control" placeholder="escribe el cuerpo" id="body"
+                                    cols="36" rows="2">${attrs.body}
+                                </textarea>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    `
+
+            ModalMsg(7, html, "Guardar ✏", "#007BFF")
+                .then((res) => {
+                    if (res.isConfirmed) {
+                        const editarCon = {
+                            id: document.getElementsByName('ide')[0].value,
+                            body: document.getElementsByName('bodye')[0].value,
+                            title: document.getElementsByName('titlee')[0].value,
+                            imgURL: document.getElementsByName('imgURLe')[0].value
+                        }
+
+                        fetch('/post/editar', {
+                            body: JSON.stringify(editarCon),
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                        }).then(x => window.location.reload())
+                    }
+                })
+
+
+        })
+
 
     })
+
+
+
+
+
+
+
 </script>
 
 
